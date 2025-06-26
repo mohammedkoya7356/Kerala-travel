@@ -13,7 +13,7 @@ import {
 const Footer = () => {
   return (
     <footer className="modern-footer">
-      {/* ✅ Centered Logo Row */}
+    
       <div className="footer-logo-center" >
         <img 
           

@@ -1,0 +1,35 @@
+.success-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #c3f0d4, #e0ffe0);
+}
+
+.success-box {
+  text-align: center;
+  padding: 3rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.success-box h2 {
+  color: #2e7d32;
+  margin-bottom: 1rem;
+}
+
+.back-home-btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #2e7d32;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.back-home-btn:hover {
+  background-color: #1b5e20;
+}

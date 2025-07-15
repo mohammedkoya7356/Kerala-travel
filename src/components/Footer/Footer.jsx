@@ -1,4 +1,5 @@
 import './Footer.css';
+import { Link } from "react-router-dom";
 import {
   FaFacebookF,
   FaTwitter,
@@ -23,21 +24,19 @@ const Footer = () => {
         />
       </div>
 
-      {/* 🔳 Main Footer Content */}
+      
       <div className="footer-top">
-        {/* Download Links */}
+    
         <div className="footer-col">
           <h4>Quick links</h4>
-       <ul>
-  <li><a href="#">About us</a></li>
-  <li><a href="#">Privacy Policy</a></li>
-  <li><a href="#">Tour packages</a></li>
-  <li><a href="#">Blogs</a></li>
+      <ul>
+  <li><Link to="/about">About us</Link></li>
+  <li><Link to="/blog">Blogs</Link></li>
+  <li><Link to="/contact">Contact Us</Link></li>
+  <li> <Link to="/packages">Tour Package</Link></li>
 </ul>
 
         </div>
-
-        {/* Contact Info */}
         <div className="footer-col">
           <h4>Contact Us</h4>
           <ul className="contact-info-list">
@@ -65,21 +64,26 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-
-        {/* Social Icons */}
-        <div className="footer-col">
+        <div className="footer-col text-center">
           <h4>Get in touch</h4>
-          <div className="social-icons">
-            <FaFacebookF />
-            <FaTwitter />
-            <FaLinkedinIn />
-            <FaWhatsapp />
-            <FaInstagram />
-          </div>
+ 
+<div className="social-icons centered-icons">
+  <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+    <FaFacebookF className="icon" />
+  </a>
+  <a href="https://x.com/i/flow/login" target="_blank" rel="noopener noreferrer">
+    <FaTwitter className="icon" />
+  </a>
+  <a href="https://wa.me/7356393428" target="_blank" rel="noopener noreferrer">
+    <FaWhatsapp className="icon" />
+  </a>
+  <a href="https://www.instagram.com/koya.mhd_/?hl=en" target="_blank" rel="noopener noreferrer">
+    <FaInstagram className="icon" />
+  </a>
+</div>
+
         </div>
       </div>
-
-      {/* ⬇️ Footer Bottom */}
       <div className="footer-bottom">
         <p>©2025 Glossy, All right reserved.</p>
       </div>

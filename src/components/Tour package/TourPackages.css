@@ -1,0 +1,42 @@
+
+.tour-hero {
+  background-image: url("/src/assets/bulbul-bird-perched-branch-with-red-flowers-with-blue-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 80vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  z-index: 1;
+}
+
+.tour-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 0;
+}
+
+.tour-hero h1 {
+  position: relative;
+  z-index: 1;
+  font-size: 3rem;
+  font-weight: 700;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 10px 30px;
+  border-radius: 12px;
+}
+
+.tour-packages-wrapper {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}

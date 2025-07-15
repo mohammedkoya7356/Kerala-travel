@@ -1,50 +1,69 @@
-import React from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './GalleryGrid.css'; // 🔁 Import the custom styles
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import './GalleryGrid.css';
+
+const blockOrder = ['img1', 'img2', 'img3', 'img4', 'img5', 'img6'];
 
 const GalleryGrid = () => {
-  const images = [
-    {
-      title: 'Mountain View',
-      img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
-    },
-    {
-      title: 'City Lights',
-      img: 'https://images.unsplash.com/photo-1495567720989-cebdbdd97913?auto=format&fit=crop&w=800&q=80',
-    },
-    {
-      title: 'Beach Vibes',
-      img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
-    },
-    {
-      title: 'Forest Walk',
-      img: '/src/assets/sunny-tropical-landscape.jpg',
-    },
-    {
-      title: 'Tracking and Safaris',
-      img: '/src/assets/female-tourists.jpg',
-    },
-    {
-      title: 'Kerala culture',
-      img: '/src/assets/pexels-nandhukumar-27489411.jpg',
-    },
-  ];
+  const [blocks, setBlocks] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchGallery = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get('http://localhost:5000/api/gallery');
+
+      const sorted = blockOrder
+        .map((key) => res.data.find((item) => item.block === key))
+        .filter(Boolean);
+
+      setBlocks(sorted);
+    } catch (err) {
+      console.error('Failed to load gallery:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchGallery();
+
+    const interval = setInterval(fetchGallery, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Container className="my-5">
+      <div className="d-flex justify-content-between align-items-center mb-4">
       
+      </div>
+
       <Row>
-        {images.map((item, index) => (
-          <Col key={index} sm={12} md={6} lg={4} className="mb-4">
-            <div className="image-container">
-              <img
-                src={item.img}
-                alt={item.title}
-                className="gallery-image"
-              />
+        {loading && <p>Loading gallery...</p>}
+        {!loading && blocks.length === 0 && (
+          <p className="text-muted">No gallery images found.</p>
+        )}
+
+        {blocks.map((block, index) => (
+          <Col key={block._id || `gallery-${index}`} sm={12} md={6} lg={4} className="mb-4">
+            <div className="image-container position-relative">
+              {block.image ? (
+                <img
+                  src={`http://localhost:5000/uploads/gallery/${block.image}`}
+                  alt={block.title || 'Gallery Image'}
+                  className="gallery-image"
+                />
+              ) : (
+                <div
+                  className="bg-light d-flex align-items-center justify-content-center"
+                  style={{ height: '250px', color: '#999' }}
+                >
+                  No Image
+                </div>
+              )}
               <div className="overlay">
-                <div className="overlay-text">{item.title}</div>
+                <div className="overlay-text">{block.title || 'Untitled'}</div>
               </div>
             </div>
           </Col>

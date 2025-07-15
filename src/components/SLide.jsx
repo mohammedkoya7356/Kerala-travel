@@ -1,0 +1,60 @@
+
+import React, { useEffect, useState } from 'react';
+import Carousel from 'react-bootstrap/Carousel';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const API_URL = "http://localhost:5000/api/banner";
+
+function SLide() {
+  const [slides, setSlides] = useState([]);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const res = await axios.get(API_URL);
+        const allSlides = [];
+
+        res.data.forEach(banner => {
+          ['img1', 'img2', 'img3'].forEach(key => {
+            const block = banner[key];
+            if (block && block.image) {
+              allSlides.push({
+                image: `http://localhost:5000/${block.image.replace(/\\/g, '/')}`,
+                heading: block.heading,
+                subheading: block.subheading,
+              });
+            }
+          });
+        });
+
+        setSlides(allSlides);
+      } catch (error) {
+        console.error("Failed to load banners:", error);
+      }
+    };
+
+    fetchBanners();
+  }, []);
+
+  return (
+    <Carousel controls={false} indicators interval={3000} pause={false}>
+      {slides.map((slide, index) => (
+        <Carousel.Item key={index}>
+          <img
+            className="d-block w-100"
+            src={slide.image}
+            alt={`Slide ${index + 1}`}
+            style={{ height: '95vh', objectFit: 'cover' }}
+          />
+          <Carousel.Caption>
+            <h3>{slide.heading}</h3>
+            <p>{slide.subheading}</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
+    </Carousel>
+  );
+}
+
+export default SLide;

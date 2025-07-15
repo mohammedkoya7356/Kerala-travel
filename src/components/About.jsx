@@ -1,49 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './About.css'; // Make sure this file exists
+import './About.css';
 
 const About = () => {
-  const cards = [
-    {
-      title: 'Flowers and Plants',
-      img: '/src/assets/bulbul-bird-perched-branch-with-red-flowers-with-blue-background.jpg',
-    },
-    {
-      title: 'Kayaking and Canoeing',
-      img: '/src/assets/pexels-yogendras31-16443131.jpg',
-    },
-  ];
+  const [aboutData, setAboutData] = useState(null);
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/about');
+        setAboutData(res.data);
+      } catch (error) {
+        console.error('Error fetching about data:', error);
+      }
+    };
+
+    fetchAboutData();
+  }, []);
+
+  if (!aboutData) return <p className="text-center text-white">Loading...</p>;
+
+  const { paragraph, backgroundImage, cards } = aboutData;
 
   return (
     <div
       className="about-section"
+      style={{
+        backgroundImage: `url(http://localhost:5000${backgroundImage})`,
+      }}
     >
       <div className="overlay" />
 
       <Container style={{ zIndex: 1 }}>
         <Row>
-          {/* Text */}
+          {/* Paragraph & Heading */}
           <Col md={6} className="d-flex flex-column justify-content-center fade-in-up">
-            <h1 className="display-4 fw-bold">Memories for a Lifetime</h1>
-            <p className="lead">
-              Here is a bouquet of unforgettable experiences Kerala offers: charming village life,
-              thrilling treks, serene safaris, vibrant farms, unique cuisine, tranquil houseboats,
-              and the magic of monsoon.
-              <br />
-              Each moment in Kerala is a story waiting to be told, a memory etched in time.
-            </p>
+            <h1 className="display-4 fw-bold">{aboutData.heading}</h1>
+            <p className="lead">{paragraph}</p>
           </Col>
 
-          {/* Cards */}
+          {/* Image Cards */}
           <Col md={6}>
             <Row className="g-3 fade-in">
-              {cards.map((item, idx) => (
+              {cards?.map((item, idx) => (
                 <Col xs={12} sm={6} key={idx}>
                   <div className="card-wrapper">
                     <Card className="hover-card">
                       <Card.Img
-                        src={item.img}
+                        src={`http://localhost:5000${item.image}`}
                         alt={item.title}
                         loading="lazy"
                         className="hover-image"

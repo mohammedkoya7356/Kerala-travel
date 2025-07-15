@@ -14,7 +14,7 @@ const ContactForm = () => {
   });
 
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,14 +24,20 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
+    setLoading(true);
+
     try {
-      await axios.post('http://localhost:5000/api/contact', formData);
-      setSuccess('Message sent successfully!');
-      navigate('/success'); // You can remove this if you want to stay on the same page
+      const response = await axios.post('http://localhost:5000/api/contact', formData);
+      if (response.status === 201 || response.status === 200) {
+        navigate('/success');
+      } else {
+        setError(' Something went wrong. Please try again.');
+      }
     } catch (err) {
-      setError('Something went wrong. Please try again.');
-      console.error("Contact form submission error:", err);
+      console.error(' Contact form submission error:', err);
+      setError(err.response?.data?.error || ' Server error. Please try again later.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,13 +54,10 @@ const ContactForm = () => {
 
       <div className="contact-wrapper">
         <div className="contact-container">
-
-          {/* Form Section */}
           <div className="contact-card">
             <div className="contact-header">Get in Touch</div>
             <div className="contact-form">
               {error && <div className="alert alert-danger">{error}</div>}
-              {success && <div className="alert alert-success">{success}</div>}
 
               <form onSubmit={handleSubmit}>
                 <div className="form-row">
@@ -111,19 +114,21 @@ const ContactForm = () => {
                   </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary w-100">Send Message</button>
+                <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                  {loading ? 'Sending...' : 'Send Message'}
+                </button>
               </form>
             </div>
           </div>
 
-          {/* Contact Info Section */}
+          {/* Contact Info */}
           <div className="contact-info">
             <h3>Contact with Us</h3>
 
             <div className="contact-info-item">
               <i className="fas fa-phone-alt"></i>
               <div>
-                <strong>Phone-1</strong>
+                <strong>Phone</strong>
                 <div>
                   <a className="info-blue" href="tel:+919539652060">+91 953 965 2060</a><br />
                   <a className="info-blue" href="tel:+919946166488">+91 994 616 6488</a>
@@ -146,12 +151,11 @@ const ContactForm = () => {
             <div className="contact-info-item">
               <i className="fas fa-envelope"></i>
               <div>
-                <strong>e-Mail Address</strong>
+                <strong>Email</strong>
                 <div>
- <a href="mailto:muhammadkoya04@gmail.com?subject=Hello&body=Hi there">mohammmadkoya04gmail.com</a>
-  
-
-  
+                  <a href="mailto:muhammadkoya04@gmail.com?subject=Hello&body=Hi there">
+                    muhammadkoya04@gmail.com
+                  </a>
                 </div>
               </div>
             </div>
@@ -173,16 +177,15 @@ const ContactForm = () => {
             width="600"
             height="450"
             style={{ border: 0, width: '100%' }}
-            allowFullScreen=""
+            allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="Company Location"
           ></iframe>
         </div>
-
       </div>
-      <Footer/>
 
+      <Footer />
     </>
   );
 };

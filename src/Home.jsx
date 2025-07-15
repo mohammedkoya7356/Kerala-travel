@@ -4,28 +4,28 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import NavbarWithSlidebar from './components/NavbarWithSlidebar';
-import ExampleCarouselImage from './components/ExampleCarouselImage';
-import SLid from './components/SLid';
+import CustomNav from './components/CustomNav';
+import SLide from './components/SLide';
 import GalleryGrid from './components/GalleryGrid';
 import About from './components/About';
-import Footer from './components/Footer/Footer'; // Adjust the import path as necessary
+import Footer from './components/Footer/Footer'; 
 
 
 const Home = () => (
   <>
-    <SLid />
-    <ExampleCarouselImage />
+    <SLide />
     <GalleryGrid />
     <About />
     <Footer />
+    <CustomNav />
   </>
 );
 
 const App = () => {
   return (
     <Router>
-  <NavbarWithSlidebar />
+
+   
   <div style={{ paddingTop: '70px' }}>
     <Routes>
       <Route path="/" element={<Home />} />

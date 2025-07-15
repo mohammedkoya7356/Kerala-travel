@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
-import PageWrapper from './PageWrapper';
+import MotionBackground from './MotionBackground';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const VideoBackground = () => {
   const navigate = useNavigate();
 
   return (
-    <PageWrapper>
+    <MotionBackground>
       <div style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
         <video
           autoPlay
@@ -27,7 +27,7 @@ const VideoBackground = () => {
             
           }}
         >
-          <source src="/Video/4120588-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+          <source src="/Video/13158951_1920_1080_60fps.mp4" />
           Your browser does not support the video tag.
         </video>
 
@@ -36,7 +36,7 @@ const VideoBackground = () => {
           <Button variant="light" onClick={() => navigate('/home')}  style={{fontFamily:"JetBrains Mono"}}>Get Started</Button>
         </Container>
       </div>
-    </PageWrapper>
+    </MotionBackground>
   );
 };
 

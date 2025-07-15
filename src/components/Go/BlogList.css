@@ -1,50 +1,13 @@
-.blog-card {
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-  background-color: white;
-}
-
-.blog-card:hover {
-  transform: translateY(-5px); /* Optional for card lift */
-}
-
-.blog-image {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-  border-radius: 10px 10px 0 0;
-}
-
-.blog-card:hover .blog-image {
-  transform: scale(1.1); /* Zoom effect */
-}
-
-.blog-content {
-  padding: 1rem;
-}
-
-.read-more {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.read-more:hover {
-  text-decoration: underline;
-}
 
 .blog-list-wrapper {
   background-color: #f8f9fa;
 }
 
 .hero-banner {
-  background-image: url("/src/assets/beautiful-paradise-island-with-beach-sea.jpg"); /* Use a wide scenic image */
+  background-image: url("/src/assets/beautiful-paradise-island-with-beach-sea.jpg");
   background-size: cover;
   background-position: center;
-  height: 80vh;
+  height: 70vh;
   position: relative;
 }
 
@@ -57,22 +20,62 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
 .blog-image {
-  height: 200px;
+  height: 180px;
+  width: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  border-radius: 12px 12px 0 0;
 }
 
-.blog-card:hover .blog-image {
-  transform: scale(1.05);
+
+.blog-card h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #212529;
 }
 
-.read-more {
+.blog-card p {
+  font-size: 0.9rem;
+  color: #6c757d;
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+}
+
+
+.read-full-blog {
+  margin-top: auto;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: 50px;
+  background-color: #000;
+  color: #fff;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.read-full-blog:hover {
+  background-color: #333;
+  color: #fff;
   text-decoration: none;
 }
-
-.read-more:hover {
-  text-decoration: underline;
-}
-
-

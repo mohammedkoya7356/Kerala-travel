@@ -1,18 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ParallaxPage from "../ParallaxPage";
+import axios from "axios";
+import { Container, Row, Col } from "react-bootstrap";
+import Footer from "../Footer/Footer";
 
 const BlogDetail = () => {
   const { id } = useParams();
+  const [blog, setBlog] = useState(null);
+  const [error, setError] = useState("");
 
-  if (id === "1") {
-    return <ParallaxPage />; // Only for blog 1
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+        setBlog(res.data);
+      } catch (err) {
+        setError("Blog not found");
+        console.error("Blog fetch failed:", err);
+      }
+    };
+
+    fetchBlog();
+  }, [id]);
+
+  if (error) {
+    return (
+      <div className="text-center py-5">
+        <h2 className="text-danger">{error}</h2>
+        <p>Try a different blog.</p>
+      </div>
+    );
+  }
+
+  if (!blog) {
+    return (
+      <div className="text-center py-5">
+        <p>Loading blog...</p>
+      </div>
+    );
   }
 
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
-      <h2>Blog #{id}</h2>
-      <p>This is a placeholder for blog detail page.</p>
+    <div style={{ backgroundColor: "#f8f9fa" }}>
+      <Container className="py-5">
+        <Row className="justify-content-center">
+          <Col md={10}>
+            <img
+              src={`http://localhost:5000${blog.img}`}
+              alt={blog.title}
+              className="w-100 rounded mb-4"
+              style={{ maxHeight: "500px", objectFit: "cover" }}
+              onError={(e) => (e.target.src = "/fallback-image.jpg")}
+            />
+            <h1 className="fw-bold mb-3">{blog.title}</h1>
+            <p className="text-muted" style={{ fontSize: "1.1rem" }}>
+              {blog.description}
+            </p>
+          </Col>
+        </Row>
+      </Container>
+      <Footer />
     </div>
   );
 };

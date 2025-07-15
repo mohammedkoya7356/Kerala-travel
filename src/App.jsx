@@ -16,7 +16,8 @@ import TourPackages from './components/Tour package/TourPackages';
 function AnimatedRoutes() {
   const location = useLocation();
 
-  const hideNavbarOnPaths = ['/']; // 👈 Only hide on landing page
+  // 👇 Hide navbar only on root path (VideoBackground)
+  const hideNavbarOnPaths = ['/'];
   const showNavbar = !hideNavbarOnPaths.includes(location.pathname);
 
   return (
@@ -25,8 +26,7 @@ function AnimatedRoutes() {
 
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-        
-          <Route path="/intro" element={<VideoBackground />} /> {/* 👈 Video page */}
+          <Route path="/" element={<VideoBackground />} /> {/* ✅ Default page */}
           <Route path="/home" element={<Home />} />
           <Route path="/packages" element={<TourPackages />} />
           <Route path="/blog" element={<BlogList />} />

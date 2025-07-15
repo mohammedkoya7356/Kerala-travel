@@ -27,7 +27,9 @@ const VideoBackground = () => {
             
           }}
         >
-          <source src="/Video/13158951_1920_1080_60fps.mp4" />
+  <source src={`${import.meta.env.BASE_URL}video/13158951_1920_1080_60fps.mp4`} type="video/mp4" />
+
+
           Your browser does not support the video tag.
         </video>
 

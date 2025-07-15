@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Home from './Home';
 import VideoBackground from './components/VideoBackground';
-import Landing from './components/Landing'; // 👈 NEW
+
 import CustomNav from './components/CustomNav';
 import BlogList from './components/Go/BlogList';
 import BlogDetail from './components/Go/BlogDetail';
@@ -25,7 +25,7 @@ function AnimatedRoutes() {
 
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Landing />} /> {/* 👈 New landing page */}
+        
           <Route path="/intro" element={<VideoBackground />} /> {/* 👈 Video page */}
           <Route path="/home" element={<Home />} />
           <Route path="/packages" element={<TourPackages />} />

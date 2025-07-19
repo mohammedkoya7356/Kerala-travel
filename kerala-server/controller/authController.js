@@ -1,97 +1,80 @@
-const jwt = require('jsonwebtoken');
 const User = require('../model/user');
+const jwt = require('jsonwebtoken');
 
 // Generate JWT Token
 const generateToken = (user) => {
   return jwt.sign(
     { id: user._id, role: user.role },
     process.env.JWT_SECRET || 'defaultSecretKey',
-    { expiresIn: process.env.JWT_EXP || '3d' }
+    { expiresIn: '3d' }
   );
 };
 
-// Register New Admin/User
+// Register Function
 exports.register = async (req, res) => {
-  const { name, email, password, role } = req.body;
-
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: 'All fields are required.' });
-  }
-
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists.' });
+    const { name, email, password } = req.body;
+
+    // Validation: check required fields
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const newUser = new User({
-      name,
-      email,
-      password, // password hashing handled in model pre-save
-      role: role || 'user',
-    });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
 
-    await newUser.save();
+    const user = await User.create({ name, email, password });
 
-    const token = generateToken(newUser);
-
-    return res.status(201).json({
-      message: 'Registration successful',
-      token,
+    res.status(201).json({
+      message: 'Admin registered successfully',
       user: {
-        id: newUser._id,
-        name: newUser.name,
-        email: newUser.email,
-        role: newUser.role,
-      },
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
     });
-  } catch (err) {
-    console.error('Registration error:', err.message);
-    return res.status(500).json({ message: 'Server error. Please try again later.' });
+  } catch (error) {
+    console.error('Register Error:', error); // 👈 SHOW THE ERROR IN TERMINAL
+    res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 };
 
-// Admin Login Only
+// Login Function
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required.' });
-  }
-
   try {
-    const user = await User.findOne({ email });
+    const { email, password } = req.body;
 
+    // Check if email and password are provided
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    const user = await User.findOne({ email });
     if (!user) {
-      console.warn(`Login failed: No user found with email ${email}`);
-      return res.status(401).json({ message: 'Invalid credentials.' });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      console.warn(`Login failed: Invalid password for ${email}`);
-      return res.status(401).json({ message: 'Invalid credentials.' });
-    }
-
-    if (user.role !== 'admin') {
-      console.warn(`Unauthorized login attempt by non-admin user: ${email}`);
-      return res.status(403).json({ message: 'Access denied: Admins only.' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const token = generateToken(user);
 
-    return res.status(200).json({
-      message: 'Admin login successful',
+    res.status(200).json({
       token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role, // ✅ frontend expects this!
-      },
+        role: user.role
+      }
     });
-  } catch (err) {
-    console.error('Login error:', err.message);
-    return res.status(500).json({ message: 'Server error during login.' });
+  } catch (error) {
+    console.error('Login Error:', error); // 👈 SHOW THE ERROR IN TERMINAL
+    res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 };

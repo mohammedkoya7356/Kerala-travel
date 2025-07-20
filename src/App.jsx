@@ -42,7 +42,7 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <Router basename="/Kerala-travel">
+    <Router>
       <AnimatedRoutes />
     </Router>
   );

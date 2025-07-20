@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import './GalleryGrid.css';
+
+// Use environment variable for backend URL
+const API_URL = import.meta.env.VITE_API_URL;
 
 const blockOrder = ['img1', 'img2', 'img3', 'img4', 'img5', 'img6'];
 
@@ -12,7 +15,7 @@ const GalleryGrid = () => {
   const fetchGallery = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/gallery');
+      const res = await axios.get(`${API_URL}/api/gallery`);
 
       const sorted = blockOrder
         .map((key) => res.data.find((item) => item.block === key))
@@ -35,10 +38,6 @@ const GalleryGrid = () => {
 
   return (
     <Container className="my-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-      
-      </div>
-
       <Row>
         {loading && <p>Loading gallery...</p>}
         {!loading && blocks.length === 0 && (
@@ -50,7 +49,7 @@ const GalleryGrid = () => {
             <div className="image-container position-relative">
               {block.image ? (
                 <img
-                  src={`http://localhost:5000/uploads/gallery/${block.image}`}
+                  src={`${API_URL}/uploads/gallery/${block.image}`}
                   alt={block.title || 'Gallery Image'}
                   className="gallery-image"
                 />

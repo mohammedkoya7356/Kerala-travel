@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const API_URL = "http://localhost:5000/api/banner";
+// Use environment variable for production/development
+const API_URL = `${import.meta.env.VITE_API_URL}/api/banner`;
 
 function SLide() {
   const [slides, setSlides] = useState([]);
@@ -15,12 +15,12 @@ function SLide() {
         const res = await axios.get(API_URL);
         const allSlides = [];
 
-        res.data.forEach(banner => {
-          ['img1', 'img2', 'img3'].forEach(key => {
+        res.data.forEach((banner) => {
+          ['img1', 'img2', 'img3'].forEach((key) => {
             const block = banner[key];
             if (block && block.image) {
               allSlides.push({
-                image: `http://localhost:5000/${block.image.replace(/\\/g, '/')}`,
+                image: `${import.meta.env.VITE_API_URL}/${block.image.replace(/\\/g, '/')}`,
                 heading: block.heading,
                 subheading: block.subheading,
               });
@@ -30,7 +30,7 @@ function SLide() {
 
         setSlides(allSlides);
       } catch (error) {
-        console.error("Failed to load banners:", error);
+        console.error('Failed to load banners:', error);
       }
     };
 

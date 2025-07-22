@@ -4,7 +4,6 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './About.css';
 
-// ✅ Use VITE_BACKEND_URL from .env
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 const About = () => {
@@ -55,14 +54,14 @@ const About = () => {
           {/* Cards Section */}
           <Col md={6}>
             <Row className="g-3 fade-in">
-              {cards.length > 0 ? (
+              {cards && cards.length > 0 ? (
                 cards.map((item, idx) => (
                   <Col xs={12} sm={6} key={idx}>
                     <div className="card-wrapper">
                       <Card className="hover-card">
                         <Card.Img
-                          src={`${BASE_URL}${item.image}`}
-                          alt={item.title}
+                          src={item?.image ? `${BASE_URL}${item.image}` : '/fallback.jpg'}
+                          alt={item?.title || 'Card'}
                           loading="lazy"
                           className="hover-image"
                           onError={(e) => {
@@ -72,7 +71,7 @@ const About = () => {
                         />
                         <Card.ImgOverlay className="d-flex align-items-end">
                           <Card.Title className="card-title-overlay">
-                            {item.title}
+                            {item?.title || 'Untitled'}
                           </Card.Title>
                         </Card.ImgOverlay>
                       </Card>

@@ -3,11 +3,11 @@ import Carousel from 'react-bootstrap/Carousel';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// Use environment variable for production/development
-const API_URL = `${import.meta.env.VITE_API_URL}/api/banner`;
-
-function SLide() {
+const SLide = () => {
   const [slides, setSlides] = useState([]);
+  const [error, setError] = useState('');
+
+  const API_URL = `${import.meta.env.VITE_API_URL}/api/banner`;
 
   useEffect(() => {
     const fetchBanners = async () => {
@@ -17,44 +17,53 @@ function SLide() {
 
         res.data.forEach((banner) => {
           ['img1', 'img2', 'img3'].forEach((key) => {
-            const block = banner[key];
-            if (block && block.image) {
+            const block = banner?.[key];
+            if (block?.image) {
               allSlides.push({
                 image: `${import.meta.env.VITE_API_URL}/${block.image.replace(/\\/g, '/')}`,
-                heading: block.heading,
-                subheading: block.subheading,
+                heading: block.heading || '',
+                subheading: block.subheading || '',
               });
             }
           });
         });
 
         setSlides(allSlides);
-      } catch (error) {
-        console.error('Failed to load banners:', error);
+      } catch (err) {
+        console.error('❌ Failed to load banners:', err);
+        setError('Failed to load banner slides.');
       }
     };
 
     fetchBanners();
-  }, []);
+  }, [API_URL]);
 
   return (
-    <Carousel controls={false} indicators interval={3000} pause={false}>
-      {slides.map((slide, index) => (
-        <Carousel.Item key={index}>
-          <img
-            className="d-block w-100"
-            src={slide.image}
-            alt={`Slide ${index + 1}`}
-            style={{ height: '95vh', objectFit: 'cover' }}
-          />
-          <Carousel.Caption>
-            <h3>{slide.heading}</h3>
-            <p>{slide.subheading}</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      ))}
-    </Carousel>
+    <>
+      {error ? (
+        <div className="text-center text-danger mt-4">{error}</div>
+      ) : slides.length === 0 ? (
+        <div className="text-center mt-4 text-muted">Loading banners...</div>
+      ) : (
+        <Carousel controls={false} indicators interval={3000} pause={false}>
+          {slides.map((slide, index) => (
+            <Carousel.Item key={index}>
+              <img
+                className="d-block w-100"
+                src={slide.image}
+                alt={`Slide ${index + 1}`}
+                style={{ height: '95vh', objectFit: 'cover' }}
+              />
+              <Carousel.Caption>
+                <h3>{slide.heading}</h3>
+                <p>{slide.subheading}</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      )}
+    </>
   );
-}
+};
 
 export default SLide;

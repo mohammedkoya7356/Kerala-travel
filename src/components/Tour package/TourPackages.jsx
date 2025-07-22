@@ -4,6 +4,8 @@ import axios from "axios";
 import Footer from "../Footer/Footer";
 import "./TourPackages.css";
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
 const TourPackages = () => {
   const [packages, setPackages] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -19,7 +21,7 @@ const TourPackages = () => {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/tours");
+        const res = await axios.get(`${BASE_URL}/api/tours`);
         setPackages(res.data);
       } catch (error) {
         console.error("Failed to fetch tour packages:", error);
@@ -48,30 +50,30 @@ const TourPackages = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  const booking = {
-  ...formData,
-  package: selectedPackage?.title || "Unknown Package",
-};
+    const booking = {
+      ...formData,
+      package: selectedPackage?.title || "Unknown Package",
+    };
 
     try {
-      await axios.post("http://localhost:5000/api/bookings", booking);
-      alert(" Booking submitted successfully!");
+      await axios.post(`${BASE_URL}/api/bookings`, booking);
+      alert("✅ Booking submitted successfully!");
       handleClose();
     } catch (err) {
       console.error("Booking failed:", err);
-      alert(" Failed to submit booking.");
+      alert("❌ Failed to submit booking.");
     }
   };
 
   return (
     <div className="tour-packages-wrapper">
-  
+      {/* Hero Banner */}
       <div className="tour-hero d-flex align-items-center justify-content-center text-white text-center">
         <div className="overlay"></div>
         <h1 className="display-4 fw-bold position-relative z-1">Explore Our Tour Packages</h1>
       </div>
 
-  
+      {/* Packages */}
       <Container className="py-5">
         <Row className="g-4">
           {packages.map((pkg) => (
@@ -79,7 +81,7 @@ const TourPackages = () => {
               <Card className="h-100 shadow-sm rounded-4 overflow-hidden">
                 <Card.Img
                   variant="top"
-                  src={`http://localhost:5000${pkg.image}`}
+                  src={`${BASE_URL}${pkg.image}`}
                   alt={pkg.title}
                   style={{ height: "240px", objectFit: "cover" }}
                   onError={(e) => (e.target.src = "/fallback-image.jpg")}
@@ -88,7 +90,10 @@ const TourPackages = () => {
                   <Card.Title className="fw-bold">{pkg.title}</Card.Title>
                   <Card.Text>{pkg.description}</Card.Text>
                   <h5 className="text-success fw-semibold">₹ {pkg.price}</h5>
-                  <Button onClick={() => handleBookClick(pkg)} className="mt-auto btn btn-primary rounded-pill">
+                  <Button
+                    onClick={() => handleBookClick(pkg)}
+                    className="mt-auto btn btn-primary rounded-pill"
+                  >
                     Book Now →
                   </Button>
                 </Card.Body>
@@ -98,7 +103,7 @@ const TourPackages = () => {
         </Row>
       </Container>
 
-      
+      {/* Booking Modal */}
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Book: {selectedPackage?.title}</Modal.Title>

@@ -4,6 +4,8 @@ import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
 import Footer from "../Footer/Footer";
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
 const BlogDetail = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
@@ -12,7 +14,7 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+        const res = await axios.get(`${BASE_URL}/api/blogs/${id}`);
         setBlog(res.data);
       } catch (err) {
         setError("Blog not found");
@@ -25,16 +27,16 @@ const BlogDetail = () => {
 
   if (error) {
     return (
-      <div className="text-center py-5">
+      <div className="text-center py-5 bg-light">
         <h2 className="text-danger">{error}</h2>
-        <p>Try a different blog.</p>
+        <p className="text-muted">Try a different blog or return to the blog list.</p>
       </div>
     );
   }
 
   if (!blog) {
     return (
-      <div className="text-center py-5">
+      <div className="text-center py-5 bg-light">
         <p>Loading blog...</p>
       </div>
     );
@@ -46,7 +48,7 @@ const BlogDetail = () => {
         <Row className="justify-content-center">
           <Col md={10}>
             <img
-              src={`http://localhost:5000${blog.img}`}
+              src={`${BASE_URL}${blog.img}`}
               alt={blog.title}
               className="w-100 rounded mb-4"
               style={{ maxHeight: "500px", objectFit: "cover" }}

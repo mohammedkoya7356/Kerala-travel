@@ -4,65 +4,84 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './About.css';
 
+// ✅ Use VITE_BACKEND_URL from .env
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+
 const About = () => {
   const [aboutData, setAboutData] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchAboutData = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/about');
+        const res = await axios.get(`${BASE_URL}/api/about`);
         setAboutData(res.data);
-      } catch (error) {
-        console.error('Error fetching about data:', error);
+      } catch (err) {
+        console.error('Error fetching about data:', err);
+        setError('Failed to load About section.');
       }
     };
 
     fetchAboutData();
   }, []);
 
-  if (!aboutData) return <p className="text-center text-white">Loading...</p>;
+  if (error) return <p className="text-danger text-center mt-4">{error}</p>;
+  if (!aboutData) return <p className="text-center text-white mt-4">Loading...</p>;
 
-  const { paragraph, backgroundImage, cards } = aboutData;
+  const {
+    heading = 'About Us',
+    paragraph = 'No description available.',
+    backgroundImage = '',
+    cards = [],
+  } = aboutData;
 
   return (
     <div
       className="about-section"
       style={{
-        backgroundImage: `url(http://localhost:5000${backgroundImage})`,
+        backgroundImage: `url(${BASE_URL}${backgroundImage})`,
       }}
     >
       <div className="overlay" />
 
       <Container style={{ zIndex: 1 }}>
         <Row>
-          {/* Paragraph & Heading */}
+          {/* Text Section */}
           <Col md={6} className="d-flex flex-column justify-content-center fade-in-up">
-            <h1 className="display-4 fw-bold">{aboutData.heading}</h1>
+            <h1 className="display-4 fw-bold">{heading}</h1>
             <p className="lead">{paragraph}</p>
           </Col>
 
-          {/* Image Cards */}
+          {/* Cards Section */}
           <Col md={6}>
             <Row className="g-3 fade-in">
-              {cards?.map((item, idx) => (
-                <Col xs={12} sm={6} key={idx}>
-                  <div className="card-wrapper">
-                    <Card className="hover-card">
-                      <Card.Img
-                        src={`http://localhost:5000${item.image}`}
-                        alt={item.title}
-                        loading="lazy"
-                        className="hover-image"
-                      />
-                      <Card.ImgOverlay className="d-flex align-items-end">
-                        <Card.Title className="card-title-overlay">
-                          {item.title}
-                        </Card.Title>
-                      </Card.ImgOverlay>
-                    </Card>
-                  </div>
-                </Col>
-              ))}
+              {cards.length > 0 ? (
+                cards.map((item, idx) => (
+                  <Col xs={12} sm={6} key={idx}>
+                    <div className="card-wrapper">
+                      <Card className="hover-card">
+                        <Card.Img
+                          src={`${BASE_URL}${item.image}`}
+                          alt={item.title}
+                          loading="lazy"
+                          className="hover-image"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = '/fallback.jpg';
+                          }}
+                        />
+                        <Card.ImgOverlay className="d-flex align-items-end">
+                          <Card.Title className="card-title-overlay">
+                            {item.title}
+                          </Card.Title>
+                        </Card.ImgOverlay>
+                      </Card>
+                    </div>
+                  </Col>
+                ))
+              ) : (
+                <p className="text-muted">No image cards available.</p>
+              )}
             </Row>
           </Col>
         </Row>

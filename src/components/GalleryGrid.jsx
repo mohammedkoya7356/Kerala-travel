@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
 import './GalleryGrid.css';
 
-// ✅ Base URL from .env or fallback to local dev
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const blockOrder = ['img1', 'img2', 'img3', 'img4', 'img5', 'img6'];
@@ -17,10 +16,14 @@ const GalleryGrid = () => {
       setLoading(true);
       const res = await axios.get(`${API_URL}/api/gallery`);
 
-      // Ensure consistent block order
-      const sorted = blockOrder
-        .map((key) => res.data.find((item) => item.block === key))
-        .filter(Boolean);
+      // 🛠 Ensure all 6 blocks exist (even if missing in DB)
+      const sorted = blockOrder.map((key) => {
+        return res.data.find((item) => item.block === key) || {
+          block: key,
+          image: null,
+          title: '',
+        };
+      });
 
       setBlocks(sorted);
     } catch (err) {

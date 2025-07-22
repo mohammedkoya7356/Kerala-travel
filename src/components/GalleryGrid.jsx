@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
 import './GalleryGrid.css';
 
-// Use environment variable for backend URL
-const API_URL = import.meta.env.VITE_API_URL;
+// ✅ Base URL from .env or fallback to local dev
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const blockOrder = ['img1', 'img2', 'img3', 'img4', 'img5', 'img6'];
 
@@ -17,13 +17,14 @@ const GalleryGrid = () => {
       setLoading(true);
       const res = await axios.get(`${API_URL}/api/gallery`);
 
+      // Ensure consistent block order
       const sorted = blockOrder
         .map((key) => res.data.find((item) => item.block === key))
         .filter(Boolean);
 
       setBlocks(sorted);
     } catch (err) {
-      console.error('Failed to load gallery:', err.message);
+      console.error('❌ Failed to load gallery:', err.message);
     } finally {
       setLoading(false);
     }
@@ -32,7 +33,7 @@ const GalleryGrid = () => {
   useEffect(() => {
     fetchGallery();
 
-    const interval = setInterval(fetchGallery, 30000);
+    const interval = setInterval(fetchGallery, 30000); // Refresh every 30s
     return () => clearInterval(interval);
   }, []);
 

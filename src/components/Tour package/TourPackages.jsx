@@ -42,16 +42,18 @@ const TourPackages = () => {
   };
 
   const handleInputChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const booking = {
-      ...formData,
+      name: formData.name.trim(),
+      phone: formData.phone.trim(),
+      date: formData.date,
+      people: formData.people,
       package: selectedPackage?.title || "Unknown Package",
     };
 
@@ -61,19 +63,19 @@ const TourPackages = () => {
       handleClose();
     } catch (err) {
       console.error("Booking failed:", err);
-      alert("❌ Failed to submit booking.");
+      alert("❌ Failed to submit booking. Please try again.");
     }
   };
 
   return (
     <div className="tour-packages-wrapper">
-      {/* Hero Banner */}
+      {/* Hero Section */}
       <div className="tour-hero d-flex align-items-center justify-content-center text-white text-center">
         <div className="overlay"></div>
         <h1 className="display-4 fw-bold position-relative z-1">Explore Our Tour Packages</h1>
       </div>
 
-      {/* Packages */}
+      {/* Tour Packages */}
       <Container className="py-5">
         <Row className="g-4">
           {packages.map((pkg) => (

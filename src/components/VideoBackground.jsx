@@ -34,8 +34,8 @@ const VideoBackground = () => {
         </video>
 
         <Container className="d-flex flex-column justify-content-center align-items-center text-white h-100">
-          <h1 className="mb-4" style={{fontFamily:"JetBrains Mono"}}>Welcome to Our Site</h1>
-          <Button variant="light" onClick={() => navigate('/home')}  style={{fontFamily:"JetBrains Mono"}}>Get Started</Button>
+          <h1 className="mb-4" style={{fontFamily:"JetBrains Mono"}}>Welcome to Kerala</h1>
+          <Button variant="light" onClick={() => navigate('/home')}  style={{fontFamily:"Cantarell"}}>Get Started</Button>
         </Container>
       </div>
     </MotionBackground>

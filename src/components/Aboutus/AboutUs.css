@@ -1,6 +1,7 @@
 /* Hero Section */
 .about-hero-section {
-  background-image: url('/src/assets/beautiful-paradise-island-with-beach-sea.jpg'); 
+  background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

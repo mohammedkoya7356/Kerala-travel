@@ -16,7 +16,6 @@ const GalleryGrid = () => {
       setLoading(true);
       const res = await axios.get(`${API_URL}/api/gallery`);
 
-      // 🛠 Ensure all 6 blocks exist (even if missing in DB)
       const sorted = blockOrder.map((key) => {
         return res.data.find((item) => item.block === key) || {
           block: key,
@@ -36,7 +35,7 @@ const GalleryGrid = () => {
   useEffect(() => {
     fetchGallery();
 
-    const interval = setInterval(fetchGallery, 30000); // Refresh every 30s
+    const interval = setInterval(fetchGallery, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -47,7 +46,6 @@ const GalleryGrid = () => {
         {!loading && blocks.length === 0 && (
           <p className="text-muted">No gallery images found.</p>
         )}
-
         {blocks.map((block, index) => (
           <Col key={block._id || `gallery-${index}`} sm={12} md={6} lg={4} className="mb-4">
             <div className="image-container position-relative">
@@ -56,6 +54,9 @@ const GalleryGrid = () => {
                   src={`${API_URL}/uploads/gallery/${block.image}`}
                   alt={block.title || 'Gallery Image'}
                   className="gallery-image"
+                  onError={(e) => {
+                    e.target.src = '/fallback.jpg'; // must exist in public folder
+                  }}
                 />
               ) : (
                 <div

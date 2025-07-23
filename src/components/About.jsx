@@ -34,11 +34,16 @@ const About = () => {
     cards = [],
   } = aboutData;
 
+  // ✅ Fix: ensure correct slash for backgroundImage path
+  const finalBackgroundImage = backgroundImage
+    ? `${BASE_URL}${backgroundImage.startsWith('/') ? backgroundImage : '/' + backgroundImage}`
+    : '/fallback.jpg';
+
   return (
     <div
       className="about-section"
       style={{
-        backgroundImage: `url(${BASE_URL}${backgroundImage})`,
+        backgroundImage: `url(${finalBackgroundImage})`,
       }}
     >
       <div className="overlay" />
@@ -55,29 +60,35 @@ const About = () => {
           <Col md={6}>
             <Row className="g-3 fade-in">
               {cards && cards.length > 0 ? (
-                cards.map((item, idx) => (
-                  <Col xs={12} sm={6} key={idx}>
-                    <div className="card-wrapper">
-                      <Card className="hover-card">
-                        <Card.Img
-                          src={item?.image ? `${BASE_URL}${item.image}` : '/fallback.jpg'}
-                          alt={item?.title || 'Card'}
-                          loading="lazy"
-                          className="hover-image"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = '/fallback.jpg';
-                          }}
-                        />
-                        <Card.ImgOverlay className="d-flex align-items-end">
-                          <Card.Title className="card-title-overlay">
-                            {item?.title || 'Untitled'}
-                          </Card.Title>
-                        </Card.ImgOverlay>
-                      </Card>
-                    </div>
-                  </Col>
-                ))
+                cards.map((item, idx) => {
+                  const imagePath = item?.image
+                    ? `${BASE_URL}${item.image.startsWith('/') ? item.image : '/' + item.image}`
+                    : '/fallback.jpg';
+
+                  return (
+                    <Col xs={12} sm={6} key={idx}>
+                      <div className="card-wrapper">
+                        <Card className="hover-card">
+                          <Card.Img
+                            src={imagePath}
+                            alt={item?.title || 'Card'}
+                            loading="lazy"
+                            className="hover-image"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = '/fallback.jpg';
+                            }}
+                          />
+                          <Card.ImgOverlay className="d-flex align-items-end">
+                            <Card.Title className="card-title-overlay">
+                              {item?.title || 'Untitled'}
+                            </Card.Title>
+                          </Card.ImgOverlay>
+                        </Card>
+                      </div>
+                    </Col>
+                  );
+                })
               ) : (
                 <p className="text-muted">No image cards available.</p>
               )}

@@ -86,7 +86,7 @@ const TourPackages = () => {
                   src={`${BASE_URL}${pkg.image}`}
                   alt={pkg.title}
                   style={{ height: "240px", objectFit: "cover" }}
-                  onError={(e) => (e.target.src = "/fallback-image.jpg")}
+                  onError={(e) => (e.target.src = "/fallback.jpg")}
                 />
                 <Card.Body className="d-flex flex-column">
                   <Card.Title className="fw-bold">{pkg.title}</Card.Title>

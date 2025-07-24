@@ -52,7 +52,7 @@ const BlogDetail = () => {
               alt={blog.title}
               className="w-100 rounded mb-4"
               style={{ maxHeight: "500px", objectFit: "cover" }}
-              onError={(e) => (e.target.src = "/fallback-image.jpg")}
+              onError={(e) => (e.target.src = "/fallback.jpg")}
             />
             <h1 className="fw-bold mb-3">{blog.title}</h1>
             <p className="text-muted" style={{ fontSize: "1.1rem" }}>

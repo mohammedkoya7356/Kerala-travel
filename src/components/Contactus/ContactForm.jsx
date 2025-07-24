@@ -65,7 +65,7 @@ const response = await axios.post(
               <form onSubmit={handleSubmit}>
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="name">Your Name *</label>
+                    <label htmlFor="name">Your Name </label>
                     <input
                       type="text"
                       name="name"
@@ -77,7 +77,7 @@ const response = await axios.post(
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="email">Your Email *</label>
+                    <label htmlFor="email">Your Email </label>
                     <input
                       type="email"
                       name="email"
@@ -92,7 +92,7 @@ const response = await axios.post(
 
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="phone">Your Phone *</label>
+                    <label htmlFor="phone">Your Phone </label>
                     <input
                       type="text"
                       name="phone"
@@ -104,7 +104,7 @@ const response = await axios.post(
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="message">Message *</label>
+                    <label htmlFor="message">Message </label>
                     <textarea
                       name="message"
                       id="message"

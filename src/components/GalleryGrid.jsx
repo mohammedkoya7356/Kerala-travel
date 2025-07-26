@@ -54,9 +54,7 @@ const GalleryGrid = () => {
                   src={`${API_URL}/uploads/gallery/${block.image}`}
                   alt={block.title || 'Gallery Image'}
                   className="gallery-image"
-                  onError={(e) => {
-                    e.target.src = '/fallback-image.jpg'; // must exist in public folder
-                  }}
+                
                 />
               ) : (
                 <div

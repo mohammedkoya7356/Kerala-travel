@@ -74,10 +74,7 @@ const About = () => {
                             alt={item?.title || 'Card'}
                             loading="lazy"
                             className="hover-image"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = '/fallback-image.jpg';
-                            }}
+                           
                           />
                           <Card.ImgOverlay className="d-flex align-items-end">
                             <Card.Title className="card-title-overlay">

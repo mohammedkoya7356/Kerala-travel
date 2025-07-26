@@ -63,7 +63,7 @@ const About = () => {
                 cards.map((item, idx) => {
                   const imagePath = item?.image
                     ? `${BASE_URL}${item.image.startsWith('/') ? item.image : '/' + item.image}`
-                    : '/fallback.jpg';
+                    : '/public/fallback-image.jpg';
 
                   return (
                     <Col xs={12} sm={6} key={idx}>
@@ -76,7 +76,7 @@ const About = () => {
                             className="hover-image"
                             onError={(e) => {
                               e.target.onerror = null;
-                              e.target.src = '/fallback.jpg';
+                              e.target.src = '/public/fallback-image.jpg';
                             }}
                           />
                           <Card.ImgOverlay className="d-flex align-items-end">

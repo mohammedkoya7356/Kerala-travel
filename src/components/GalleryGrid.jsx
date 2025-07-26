@@ -55,7 +55,7 @@ const GalleryGrid = () => {
                   alt={block.title || 'Gallery Image'}
                   className="gallery-image"
                   onError={(e) => {
-                    e.target.src = '/fallback.jpg'; // must exist in public folder
+                    e.target.src = '/public/fallback-image.jpg'; // must exist in public folder
                   }}
                 />
               ) : (

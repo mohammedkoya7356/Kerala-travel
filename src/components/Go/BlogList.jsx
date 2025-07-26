@@ -72,7 +72,7 @@ const BlogList = () => {
                   }}
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "/public/fallback-image.jpg";
+                    e.target.src = "/fallback-image.jpg";
                   }}
                 />
                 <div className="p-3 bg-white d-flex flex-column h-100">

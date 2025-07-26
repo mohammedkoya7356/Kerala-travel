@@ -56,7 +56,7 @@ const SLide = () => {
             alt={`Slide ${index + 1}`}
             style={{ height: '95vh', objectFit: 'cover' }}
             onError={(e) => {
-              e.target.src = '/public/fallback-image.jpg'; // fallback image in public folder
+              e.target.src = '/fallback-image.jpg'; // fallback image in public folder
             }}
           />
           <Carousel.Caption>

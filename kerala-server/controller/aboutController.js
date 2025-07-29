@@ -1,11 +1,10 @@
 const About = require('../model/about');
+const cloudinary = require('../middleware/cloudinary'); // must handle upload + delete
 const fs = require('fs');
 const path = require('path');
 
-// Utility: Always return array of 2 elements
-const ensureTwoCards = (cards = []) => {
-  return [cards[0] || null, cards[1] || null];
-};
+// Utility: Always return array of 2 cards
+const ensureTwoCards = (cards = []) => [cards[0] || null, cards[1] || null];
 
 // GET /api/about
 exports.getAbout = async (req, res) => {
@@ -24,7 +23,7 @@ exports.getAbout = async (req, res) => {
     }
     res.json(about);
   } catch (error) {
-    console.error(' Error in getAbout:', error);
+    console.error('Error in getAbout:', error);
     res.status(500).json({ error: 'Server error while fetching About data' });
   }
 };
@@ -52,7 +51,7 @@ exports.updateParagraph = async (req, res) => {
     const about = await About.findOneAndUpdate({}, { paragraph }, { new: true, upsert: true });
     res.json(about);
   } catch (error) {
-    console.error(' Failed to update paragraph:', error);
+    console.error('Failed to update paragraph:', error);
     res.status(500).json({ error: 'Failed to update paragraph' });
   }
 };
@@ -62,26 +61,27 @@ exports.updateBackground = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
 
-    const filePath = `/uploads/about/${req.file.filename}`;
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'kerala/about',
+    });
+
     let about = await About.findOne();
-    if (!about) {
-      about = new About({ heading: '', paragraph: '', cards: [null, null] });
+    if (!about) about = new About({ heading: '', paragraph: '', cards: [null, null] });
+
+    // Delete old Cloudinary background if exists
+    if (about.backgroundImage?.public_id) {
+      await cloudinary.uploader.destroy(about.backgroundImage.public_id);
     }
 
-    // Delete old background image if it exists
-    const oldImage = about.backgroundImage;
-    if (oldImage?.startsWith('/uploads/about/')) {
-      const fullPath = path.join(__dirname, '..', oldImage);
-      if (fs.existsSync(fullPath)) {
-        fs.unlinkSync(fullPath);
-      }
-    }
+    about.backgroundImage = {
+      url: result.secure_url,
+      public_id: result.public_id,
+    };
 
-    about.backgroundImage = filePath;
     await about.save();
     res.json(about);
   } catch (error) {
-    console.error(' Failed to update background:', error);
+    console.error('Failed to update background:', error);
     res.status(500).json({ error: 'Failed to update background' });
   }
 };
@@ -89,12 +89,10 @@ exports.updateBackground = async (req, res) => {
 // POST /api/about/card/:index
 exports.updateCard = async (req, res) => {
   try {
-    const { title } = req.body;
     const index = parseInt(req.params.index);
+    const { title } = req.body;
 
-    if (![0, 1].includes(index)) {
-      return res.status(400).json({ error: 'Only 2 cards (index 0 or 1) are allowed' });
-    }
+    if (![0, 1].includes(index)) return res.status(400).json({ error: 'Only 2 cards (0 or 1) allowed' });
 
     let about = await About.findOne();
     if (!about) about = new About({ heading: '', paragraph: '', cards: [null, null] });
@@ -102,24 +100,32 @@ exports.updateCard = async (req, res) => {
     const cards = ensureTwoCards(about.cards);
     const currentCard = cards[index] || {};
 
-    // Remove old image if a new file is uploaded
-    if (req.file && currentCard.image?.startsWith('/uploads/about/')) {
-      const oldPath = path.join(__dirname, '..', currentCard.image);
-      if (fs.existsSync(oldPath)) {
-        fs.unlinkSync(oldPath);
-      }
+    // Delete old card image from Cloudinary
+    if (req.file && currentCard.image?.public_id) {
+      await cloudinary.uploader.destroy(currentCard.image.public_id);
+    }
+
+    let imageObj = currentCard.image || {};
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'kerala/about/cards',
+      });
+      imageObj = {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
     }
 
     cards[index] = {
       title: title?.trim() || currentCard.title || '',
-      image: req.file ? `/uploads/about/${req.file.filename}` : currentCard.image || '',
+      image: imageObj,
     };
 
     about.cards = cards;
     await about.save();
     res.json(about);
   } catch (error) {
-    console.error(' Failed to update card:', error);
+    console.error('Failed to update card:', error);
     res.status(500).json({ error: 'Failed to update card' });
   }
 };
@@ -128,19 +134,16 @@ exports.updateCard = async (req, res) => {
 exports.deleteCard = async (req, res) => {
   try {
     const index = parseInt(req.params.index);
-    if (![0, 1].includes(index)) {
-      return res.status(400).json({ error: 'Only 2 cards (index 0 or 1) are allowed' });
-    }
+    if (![0, 1].includes(index)) return res.status(400).json({ error: 'Only 2 cards (index 0 or 1) allowed' });
 
     const about = await About.findOne();
-    if (!about || !about.cards?.[index]) {
-      return res.status(404).json({ error: 'Card not found' });
-    }
+    if (!about || !about.cards?.[index]) return res.status(404).json({ error: 'Card not found' });
 
-    // Delete image file if exists
-    const imagePath = path.join(__dirname, '..', about.cards[index].image || '');
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath);
+    const currentCard = about.cards[index];
+
+    // Delete Cloudinary image
+    if (currentCard?.image?.public_id) {
+      await cloudinary.uploader.destroy(currentCard.image.public_id);
     }
 
     about.cards[index] = null;
@@ -149,7 +152,7 @@ exports.deleteCard = async (req, res) => {
 
     res.json(about);
   } catch (error) {
-    console.error(' Error in deleteCard:', error.message);
+    console.error('Error in deleteCard:', error.message);
     res.status(500).json({ error: error.message });
   }
 };

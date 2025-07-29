@@ -62,7 +62,11 @@ const BlogList = () => {
             <Col xs={12} sm={6} md={4} key={blog._id}>
               <div className="blog-card shadow-sm rounded-4 overflow-hidden h-100">
                 <img
-                  src={`${BASE_URL}${blog.img}`}
+                  src={
+                    blog.img?.startsWith("http")
+                      ? blog.img
+                      : `/assets/${blog.img}`
+                  }
                   alt={blog.title || "Blog Image"}
                   className="blog-image w-100"
                   style={{
@@ -70,8 +74,8 @@ const BlogList = () => {
                     objectFit: "cover",
                     objectPosition: "center",
                   }}
-              
                 />
+
                 <div className="p-3 bg-white d-flex flex-column h-100">
                   <h5 className="fw-bold">{blog.title}</h5>
                   <p className="text-muted">{blog.description}</p>

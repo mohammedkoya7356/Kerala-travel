@@ -6,7 +6,7 @@ import './GalleryGrid.css';
 const galleryData = [
   { title: 'WaterFall', src: `${import.meta.env.BASE_URL}galleryimages/484711.jpg` },
   { title: 'Mountain Trek', src: `${import.meta.env.BASE_URL}images/top-mountain-with-trees.jpg` },
-  { title: 'Backwater Ride', src: `${import.meta.env.BASE_URL}images/3840x2160-desktop-4k-kerala-background.jpg` },
+  { title: 'Safari', src: `${import.meta.env.BASE_URL}images/female-tourists.jpg` },
   { title: 'Temple Art', src: `${import.meta.env.BASE_URL}images/illuminated-pagoda-glows-ancient-east-asian-culture-generated-by-ai.jpg` },
   { title: 'Forest Walk', src: `${import.meta.env.BASE_URL}images/WhatsApp Image 2024-10-02 at 9.41.33 AM.jpeg` },
   { title: 'The Blue', src: `${import.meta.env.BASE_URL}images/pexels-ravi-roshan-2875998-29520173.jpg` },
@@ -27,6 +27,7 @@ const GalleryGrid = () => {
             
               <div className="overlay">
                 <div className="overlay-text">{item.title}</div>
+                <img src="/public/images/female-tourists.jpg" alt="" />
               </div>
             </div>
           </Col>

@@ -70,9 +70,6 @@ const BlogDetail = () => {
         <h2>{blog.title}</h2>
         <img src={blog.image} alt={blog.title} className="blog-image" />
         <p>{blog.description}</p>
-        <Link to="/" className="back-link">
-          ← Back to Home
-        </Link>
       </Container>
       <Footer />
     </>

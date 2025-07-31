@@ -41,16 +41,20 @@ const BlogList = () => {
       <div className="row g-4">
         {blogData.map((blog, index) => (
           <div className="col-sm-6 col-md-4" key={index}>
-            <div className="card h-100 shadow-sm rounded-4 overflow-hidden">
-              <img
-                src={blog.img}
-                alt={blog.title}
+            <div className="card h-100 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
+              <div
                 className="w-100"
-                style={{ height: '220px', objectFit: 'cover', objectPosition: 'center' }}
-              />
-              <div className="p-3 bg-white d-flex flex-column h-100">
+                style={{
+                  height: '220px',
+                  backgroundImage: `url(${blog.img})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              ></div>
+              <div className="p-3 bg-white d-flex flex-column flex-grow-1">
                 <h5 className="fw-bold">{blog.title}</h5>
                 <p className="text-muted">{blog.description}</p>
+                <button className="btn btn-primary mt-auto align-self-start">Read Full</button>
               </div>
             </div>
           </div>

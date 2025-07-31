@@ -21,14 +21,14 @@ const TourPackages = () => {
       title: "Beach Paradise",
       description: "Relax on golden sands with stunning ocean views.",
       price: "4999",
-      image: "/public/imges/female-tourists.jpg", // ✅ Make sure this file exists in public/assets/images
+      image: "/src/assets/beautiful-paradise-island-with-beach-sea.jpg", // ✅ Make sure this file exists in public/assets/images
     },
     {
       key: "card2",
       title: "Hill Station Retreat",
       description: "Cool breeze, scenic hills, and peaceful escapes.",
       price: "5999",
-      image: "/public/imges/girl-walk-forest-umbrella-mountains-near-lake.jpg", // ✅ Make sure this file exists in public/assets/images
+      image: "/src/assets/illuminated-pagoda-glows-ancient-east-asian-culture-generated-by-ai.jpg", // ✅ Make sure this file exists in public/assets/images
     },
   ];
 

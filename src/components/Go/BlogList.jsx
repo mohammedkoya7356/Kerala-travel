@@ -5,7 +5,7 @@ const blogData = [
   {
     title: 'Backwaters of Alleppey',
     description: 'Explore the calm and scenic backwaters of Kerala in a traditional houseboat.',
-    img: `${import.meta.env.BASE_URL}images/bl`,
+    img: `${import.meta.env.BASE_URL}images/female-tourists.jpg`,
   },
   {
     title: 'Munnar Tea Hills',

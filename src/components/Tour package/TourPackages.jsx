@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap";
 import Footer from "../Footer/Footer";
 import "./TourPackages.css";
+import beachImg from "../assets/beautiful-paradise.jpg";
+import hillImg from "../assets/hill-retreat.jpg";
+
+
 
 const TourPackages = () => {
   const [showModal, setShowModal] = useState(false);
@@ -16,21 +20,21 @@ const TourPackages = () => {
 
   // ✅ Static packages with local images
   const packages = [
-    {
-      key: "card1",
-      title: "Beach Paradise",
-      description: "Relax on golden sands with stunning ocean views.",
-      price: "4999",
-      image: "/src/assets/beautiful-paradise-island-with-beach-sea.jpg", // ✅ Make sure this file exists in public/assets/images
-    },
-    {
-      key: "card2",
-      title: "Hill Station Retreat",
-      description: "Cool breeze, scenic hills, and peaceful escapes.",
-      price: "5999",
-      image: "/src/assets/illuminated-pagoda-glows-ancient-east-asian-culture-generated-by-ai.jpg", // ✅ Make sure this file exists in public/assets/images
-    },
-  ];
+  {
+    key: "card1",
+    title: "Beach Paradise",
+    description: "Relax on golden sands with stunning ocean views.",
+    price: "4999",
+    image: beachImg,
+  },
+  {
+    key: "card2",
+    title: "Hill Station Retreat",
+    description: "Cool breeze, scenic hills, and peaceful escapes.",
+    price: "5999",
+    image: hillImg,
+  },
+];
 
   const handleBookClick = (pkg) => {
     setSelectedPackage(pkg);

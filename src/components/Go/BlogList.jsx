@@ -1,65 +1,91 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Footer from "../Footer/Footer";
+import "./BlogList.css";
 
 const blogData = [
   {
-    title: 'Backwaters of Alleppey',
-    description: 'Explore the calm and scenic backwaters of Kerala in a traditional houseboat.',
-    img: `${import.meta.env.BASE_URL}images/female-tourists.jpg`,
+    id: 1,
+    title: "Exploring Kerala Backwaters",
+    description: "Discover the serene beauty of Alleppey and Kumarakom's iconic houseboat cruises.",
+    image: `${import.meta.env.BASE_URL}images/backwaters.jpg`,
   },
   {
-    title: 'Munnar Tea Hills',
-    description: 'Discover the lush green tea plantations of Munnar and their refreshing vibe.',
-    img: `${import.meta.env.BASE_URL}images/female-tourists.jpg`,
+    id: 2,
+    title: "Munnar Tea Plantation Magic",
+    description: "Wander through lush green tea gardens and misty hills in Munnar.",
+    image: `${import.meta.env.BASE_URL}images/munnar.jpg`,
   },
   {
-    title: 'Wildlife at Thekkady',
-    description: 'Spot elephants and tigers at the Periyar Wildlife Sanctuary in Thekkady.',
-    img: `${import.meta.env.BASE_URL}images/blog3.jpg`,
+    id: 3,
+    title: "Wildlife Encounters in Thekkady",
+    description: "Periyar Wildlife Sanctuary offers thrilling jungle experiences and boat safaris.",
+    image: `${import.meta.env.BASE_URL}images/thekkady.jpg`,
   },
   {
-    title: 'Culture of Kochi',
-    description: 'Experience colonial charm and vibrant street art in Fort Kochi.',
-    img: `${import.meta.env.BASE_URL}images/blog4.jpg`,
+    id: 4,
+    title: "Cultural Vibes of Fort Kochi",
+    description: "Walk through colonial streets, Chinese fishing nets, and rich heritage art.",
+    image: `${import.meta.env.BASE_URL}images/fort-kochi.jpg`,
   },
   {
-    title: 'Beaches of Varkala',
-    description: 'Relax at the scenic cliff-side beaches of Varkala with yoga and sunsets.',
-    img: `${import.meta.env.BASE_URL}images/blog5.jpg`,
+    id: 5,
+    title: "Varkala Beach Cliff Views",
+    description: "Experience sunsets from cliffs, beach yoga, and lively cafes in Varkala.",
+    image: `${import.meta.env.BASE_URL}images/varkala.jpg`,
   },
   {
-    title: 'Hill Escape to Wayanad',
-    description: 'Trek, explore caves, and breathe in the cool fresh air of Wayanad hills.',
-    img: `${import.meta.env.BASE_URL}images/blog6.jpg`,
+    id: 6,
+    title: "Monsoon Treks in Wayanad",
+    description: "Lush forests, waterfalls, and thrilling trails await in Wayanad hills.",
+    image: `${import.meta.env.BASE_URL}images/wayanad.jpg`,
   },
 ];
 
 const BlogList = () => {
   return (
-    <div className="container py-5">
-      <h2 className="text-center mb-4 fw-bold">Travel Blogs</h2>
-      <div className="row g-4">
-        {blogData.map((blog, index) => (
-          <div className="col-sm-6 col-md-4" key={index}>
-            <div className="card h-100 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
-              <div
-                className="w-100"
-                style={{
-                  height: '220px',
-                  backgroundImage: `url(${blog.img})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              ></div>
-              <div className="p-3 bg-white d-flex flex-column flex-grow-1">
-                <h5 className="fw-bold">{blog.title}</h5>
-                <p className="text-muted">{blog.description}</p>
-                <button className="btn btn-primary mt-auto align-self-start">Read Full</button>
-              </div>
-            </div>
-          </div>
-        ))}
+    <div className="blog-list-wrapper">
+      {/* Hero Banner */}
+      <div className="hero-banner d-flex align-items-center justify-content-center text-white text-center">
+        <div className="overlay"></div>
+        <h1 className="display-4 fw-bold position-relative">Travel Blogs</h1>
       </div>
+
+      {/* Blog Cards Section */}
+      <Container className="py-5 blog-section">
+        <Row className="g-4">
+          {blogData.map((blog) => (
+            <Col xs={12} sm={6} md={4} key={blog.id}>
+              <div className="blog-card shadow-sm rounded-4 overflow-hidden h-100">
+                <img
+                  src={blog.image}
+                  alt={blog.title}
+                  className="blog-image w-100"
+                  style={{
+                    height: "220px",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  }}
+                />
+
+                <div className="p-3 bg-white d-flex flex-column h-100">
+                  <h5 className="fw-bold">{blog.title}</h5>
+                  <p className="text-muted">{blog.description}</p>
+                  <Link
+                    to={`/blog/${blog.id}`}
+                    className="read-full-blog mt-auto btn btn-dark btn-sm rounded-pill"
+                  >
+                    Read Full Blog →
+                  </Link>
+                </div>
+              </div>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+
+      <Footer />
     </div>
   );
 };

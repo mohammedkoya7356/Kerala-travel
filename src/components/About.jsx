@@ -10,6 +10,7 @@ const About = () => {
   const [aboutData, setAboutData] = useState({
     heading: "Explore Kerala's Essence",
     paragraph: "Discover the soulful blend of beaches and hills that define Kerala's natural charm.",
+    backgroundImage: "/src/assets/bulbul-bird-perched-branch-with-red-flowers-with-blue-background.jpg",
     cards: [
       {
         title: "Tranquil Beaches",

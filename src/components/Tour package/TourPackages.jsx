@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap";
-import axios from "axios";
 import Footer from "../Footer/Footer";
 import "./TourPackages.css";
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
-
 const TourPackages = () => {
-  const [packages, setPackages] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
 
@@ -18,17 +14,23 @@ const TourPackages = () => {
     people: "",
   });
 
-  useEffect(() => {
-    const fetchPackages = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/api/tours`);
-        setPackages(res.data);
-      } catch (error) {
-        console.error("Failed to fetch tour packages:", error);
-      }
-    };
-    fetchPackages();
-  }, []);
+  // ✅ Static packages with local images
+  const packages = [
+    {
+      key: "card1",
+      title: "Beach Paradise",
+      description: "Relax on golden sands with stunning ocean views.",
+      price: "4999",
+      image: "/src/assets/beautiful-paradise-island-with-beach-sea.jpg", // ✅ Make sure this file exists in public/assets/images
+    },
+    {
+      key: "card2",
+      title: "Hill Station Retreat",
+      description: "Cool breeze, scenic hills, and peaceful escapes.",
+      price: "5999",
+      image: "/src/assets/female-tourists.jpg", // ✅ Make sure this file exists in public/assets/images
+    },
+  ];
 
   const handleBookClick = (pkg) => {
     setSelectedPackage(pkg);
@@ -46,25 +48,10 @@ const TourPackages = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    const booking = {
-      name: formData.name.trim(),
-      phone: formData.phone.trim(),
-      date: formData.date,
-      people: formData.people,
-      package: selectedPackage?.title || "Unknown Package",
-    };
-
-    try {
-      await axios.post(`${BASE_URL}/api/bookings`, booking);
-      alert("✅ Booking submitted successfully!");
-      handleClose();
-    } catch (err) {
-      console.error("Booking failed:", err);
-      alert("❌ Failed to submit booking. Please try again.");
-    }
+    alert("✅ Booking submitted (demo only)!");
+    handleClose();
   };
 
   return (
@@ -75,7 +62,7 @@ const TourPackages = () => {
         <h1 className="display-4 fw-bold position-relative z-1">Explore Our Tour Packages</h1>
       </div>
 
-      {/* Tour Packages */}
+      {/* Tour Cards */}
       <Container className="py-5">
         <Row className="g-4">
           {packages.map((pkg) => (
@@ -83,10 +70,9 @@ const TourPackages = () => {
               <Card className="h-100 shadow-sm rounded-4 overflow-hidden">
                 <Card.Img
                   variant="top"
-                  src={`${BASE_URL}${pkg.image}`}
+                  src={pkg.image}
                   alt={pkg.title}
                   style={{ height: "240px", objectFit: "cover" }}
-                  
                 />
                 <Card.Body className="d-flex flex-column">
                   <Card.Title className="fw-bold">{pkg.title}</Card.Title>
@@ -105,7 +91,7 @@ const TourPackages = () => {
         </Row>
       </Container>
 
-      {/* Booking Modal */}
+      {/* Modal for Booking */}
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Book: {selectedPackage?.title}</Modal.Title>

@@ -1,0 +1,36 @@
+/* BlogDetail.css */
+.blog-detail {
+  margin-top: 50px;
+  padding: 20px;
+  text-align: center;
+}
+
+.blog-detail h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.blog-image {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 12px;
+}
+
+.blog-detail p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}

@@ -5,17 +5,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const SLide = () => {
   const slides = [
     {
-      image: `${import.meta.env.BASE_URL}images/banner1.jpg`,
+      image: `${import.meta.env.BASE_URL}images/851717-1365x2048-phone-hd-kerala-wallpaper-photo.jpg`,
       heading: 'Explore the Beaches',
       subheading: 'Golden sands and stunning sunsets await you.',
     },
     {
-      image: `${import.meta.env.BASE_URL}images/banner2.jpg`,
+      image: `${import.meta.env.BASE_URL}images/india-forest-cool-hill-station-fog.jpg`,
       heading: 'Hill Station Retreat',
       subheading: 'Breathe in the cool, refreshing mountain air.',
     },
     {
-      image: `${import.meta.env.BASE_URL}images/banner3.jpg`,
+      image: `${import.meta.env.BASE_URL}images/851697-3840x2160-desktop-4k-kerala-background.jpg`,
       heading: 'Backwater Bliss',
       subheading: 'Cruise through the calm and scenic backwaters.',
     },
@@ -30,6 +30,7 @@ const SLide = () => {
             src={slide.image}
             alt={`Slide ${index + 1}`}
             style={{ height: '95vh', objectFit: 'cover' }}
+            
           />
           <Carousel.Caption>
             <h3>{slide.heading}</h3>

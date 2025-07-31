@@ -4,12 +4,12 @@ import './GalleryGrid.css';
 
 // ✅ Static gallery data using Vite's BASE_URL (images from public/images folder)
 const galleryData = [
-  { title: 'Beach Sunrise', src: `${import.meta.env.BASE_URL}galleryimages/484711.jpg` },
-  { title: 'Mountain Trek', src: `${import.meta.env.BASE_URL}images/img2.jpg` },
-  { title: 'Backwater Ride', src: `${import.meta.env.BASE_URL}images/img3.jpg` },
-  { title: 'Temple Art', src: `${import.meta.env.BASE_URL}images/img4.jpg` },
-  { title: 'Forest Walk', src: `${import.meta.env.BASE_URL}images/img5.jpg` },
-  { title: 'City Lights', src: `${import.meta.env.BASE_URL}images/img6.jpg` },
+  { title: 'WaterFall', src: `${import.meta.env.BASE_URL}galleryimages/484711.jpg` },
+  { title: 'Mountain Trek', src: `${import.meta.env.BASE_URL}images/top-mountain-with-trees.jpg` },
+  { title: 'Backwater Ride', src: `${import.meta.env.BASE_URL}images/3840x2160-desktop-4k-kerala-background.jpg` },
+  { title: 'Temple Art', src: `${import.meta.env.BASE_URL}images/illuminated-pagoda-glows-ancient-east-asian-culture-generated-by-ai.jpg` },
+  { title: 'Forest Walk', src: `${import.meta.env.BASE_URL}images/WhatsApp Image 2024-10-02 at 9.41.33 AM.jpeg` },
+  { title: 'The Blue', src: `${import.meta.env.BASE_URL}images/pexels-ravi-roshan-2875998-29520173.jpg` },
 ];
 
 const GalleryGrid = () => {
@@ -24,6 +24,7 @@ const GalleryGrid = () => {
                 alt={item.title}
                 className="gallery-image"
               />
+            
               <div className="overlay">
                 <div className="overlay-text">{item.title}</div>
               </div>

@@ -19,17 +19,17 @@ const TourPackages = () => {
 const packages = [
   {
     key: "card1",
-    title: "Beach Paradise",
-    description: "Relax on golden sands with stunning ocean views.",
-    price: "4999",
-    image: `${import.meta.env.BASE_URL}images/female-tourists.jpg`, // ✅ Updated path
+    title: "Niraamaya Retreats Surya Samudra, Kovalam",
+    description: "A clifftop boutique retreat with heritage Kerala-style cottages, infinity pool, private beach, and an Ayurvedic spa. Stunning sea views and yoga platforms add to its serene ambiance.",
+    price: "14999",
+    image: `${import.meta.env.BASE_URL}images/851781-2000x1157-desktop-hd-kerala-wallpaper-image.jpg`, // ✅ Updated path
   },
   {
     key: "card2",
-    title: "Hill Station Retreat",
-    description: "Cool breeze, scenic hills, and peaceful escapes.",
-    price: "5999",
-    image: `${import.meta.env.BASE_URL}images/girl-walk-forest-u.jpg`, // ✅ Updated path
+    title: "Canoe Cruise at Munroe Island",
+    description: "Nestled at the meeting point of Ashtamudi Lake and the Kallada River in Kollam District, Munroe Island (also called Munroethuruth) spans eight small islets. It’s a hidden gem, woven together by narrow canals, lush mangroves, serene lagoons, and verdant coconut groves.",
+    price: "19999",
+    image: `${import.meta.env.BASE_URL}images/851812-3264x1875-desktop-hd-kerala-background-image.jpg`, // ✅ Updated path
   },
 ];
 
@@ -61,6 +61,7 @@ const packages = [
       {/* Hero Section */}
       <div className="tour-hero d-flex align-items-center justify-content-center text-white text-center">
         <div className="overlay"></div>
+        <img src="/public/images/851812-3264x1875-desktop-hd-kerala-background-image.jpg" alt="" />
         <h1 className="display-4 fw-bold position-relative z-1">Explore Our Tour Packages</h1>
       </div>
 

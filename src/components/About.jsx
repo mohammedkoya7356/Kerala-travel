@@ -38,7 +38,6 @@ const About = () => {
           <Col md={6} className="d-flex flex-column justify-content-center fade-in-up">
             <h1 className="display-4 fw-bold">{aboutData.heading}</h1>
             <p className="lead">{aboutData.paragraph}</p>
-            <img src="/public/images/pexels-manish-dhodi-1475001-12193834.jpg" alt="" />
           </Col>
 
           {/* Cards Section */}

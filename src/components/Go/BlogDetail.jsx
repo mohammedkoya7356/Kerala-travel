@@ -1,70 +1,61 @@
-import React, { useEffect, useState } from "react";
+// BlogDetail.jsx
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { Container, Row, Col } from "react-bootstrap";
-import Footer from "../Footer/Footer";
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const blogData = [
+  {
+    id: 1,
+    title: "Exploring Kerala Backwaters",
+    description: "Discover the serene beauty of Alleppey and Kumarakom's iconic houseboat cruises.",
+    image: `${import.meta.env.BASE_URL}images/backwaters.jpg`,
+  },
+  {
+    id: 2,
+    title: "Munnar Tea Plantation Magic",
+    description: "Wander through lush green tea gardens and misty hills in Munnar.",
+    image: `${import.meta.env.BASE_URL}images/munnar.jpg`,
+  },
+  {
+    id: 3,
+    title: "Wildlife Encounters in Thekkady",
+    description: "Periyar Wildlife Sanctuary offers thrilling jungle experiences and boat safaris.",
+    image: `${import.meta.env.BASE_URL}images/thekkady.jpg`,
+  },
+  {
+    id: 4,
+    title: "Cultural Vibes of Fort Kochi",
+    description: "Walk through colonial streets, Chinese fishing nets, and rich heritage art.",
+    image: `${import.meta.env.BASE_URL}images/fort-kochi.jpg`,
+  },
+  {
+    id: 5,
+    title: "Varkala Beach Cliff Views",
+    description: "Experience sunsets from cliffs, beach yoga, and lively cafes in Varkala.",
+    image: `${import.meta.env.BASE_URL}images/varkala.jpg`,
+  },
+  {
+    id: 6,
+    title: "Monsoon Treks in Wayanad",
+    description: "Lush forests, waterfalls, and thrilling trails await in Wayanad hills.",
+    image: `${import.meta.env.BASE_URL}images/wayanad.jpg`,
+  },
+];
 
 const BlogDetail = () => {
   const { id } = useParams();
-  const [blog, setBlog] = useState(null);
-  const [error, setError] = useState("");
+  const blog = blogData.find((b) => b.id === parseInt(id));
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/api/blogs/${id}`);
-        setBlog(res.data);
-      } catch (err) {
-        setError("Blog not found");
-        console.error("Blog fetch failed:", err);
-      }
-    };
-
-    fetchBlog();
-  }, [id]);
-
-  if (error) {
-    return (
-      <div className="text-center py-5 bg-light">
-        <h2 className="text-danger">{error}</h2>
-        <p className="text-muted">Try a different blog or return to the blog list.</p>
-      </div>
-    );
-  }
-
-  if (!blog) {
-    return (
-      <div className="text-center py-5 bg-light">
-        <p>Loading blog...</p>
-      </div>
-    );
-  }
+  if (!blog) return <div className="text-center p-5">Blog not found</div>;
 
   return (
-    <div style={{ backgroundColor: "#f8f9fa" }}>
-      <Container className="py-5">
-        <Row className="justify-content-center">
-          <Col md={10}>
-            <img
-              src={
-                blog.img?.startsWith("http")
-                  ? blog.img
-                  : `${BASE_URL}${blog.img}`
-              }
-              alt={blog.title}
-              className="w-100 rounded mb-4"
-              style={{ maxHeight: "500px", objectFit: "cover" }}
-            />
-            <h1 className="fw-bold mb-3">{blog.title}</h1>
-            <p className="text-muted" style={{ fontSize: "1.1rem" }}>
-              {blog.description}
-            </p>
-          </Col>
-        </Row>
-      </Container>
-      <Footer />
+    <div className="container py-5">
+      <h2 className="mb-4">{blog.title}</h2>
+      <img
+        src={blog.image}
+        alt={blog.title}
+        className="img-fluid mb-4"
+        style={{ maxHeight: "400px", objectFit: "cover", width: "100%" }}
+      />
+      <p className="lead">{blog.description}</p>
     </div>
   );
 };

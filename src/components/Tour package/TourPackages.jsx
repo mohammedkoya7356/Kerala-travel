@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap";
 import Footer from "../Footer/Footer";
 import "./TourPackages.css";
-import beachImg from "../assets/beautiful-paradise.jpg";
-import hillImg from "../assets/hill-retreat.jpg";
-
 
 
 const TourPackages = () => {
@@ -18,23 +15,24 @@ const TourPackages = () => {
     people: "",
   });
 
-  // ✅ Static packages with local images
-  const packages = [
+  // ✅ Static packages with public images
+const packages = [
   {
     key: "card1",
     title: "Beach Paradise",
     description: "Relax on golden sands with stunning ocean views.",
     price: "4999",
-    image: beachImg,
+    image: `${import.meta.env.BASE_URL}images/female-tourists.jpg`, // ✅ Updated path
   },
   {
     key: "card2",
     title: "Hill Station Retreat",
     description: "Cool breeze, scenic hills, and peaceful escapes.",
     price: "5999",
-    image: hillImg,
+    image: `${import.meta.env.BASE_URL}images/girl-walk-forest-u.jpg`, // ✅ Updated path
   },
 ];
+
 
   const handleBookClick = (pkg) => {
     setSelectedPackage(pkg);
